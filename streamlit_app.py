@@ -1,4 +1,4 @@
-# Import python packages
+import requests
 import streamlit as st
 from snowflake.snowpark.functions import col
 
@@ -18,7 +18,8 @@ session = cnx.session()
 my_df = session.table('smoothies.public.fruit_options').select(col('FRUIT_NAME'))
 # st.dataframe(data=my_df, use_container_width=True)
 
-# option = st.selectbox('How would you like to be contacted?', ('Email', 'Home Phone', 'Mobile Phone'))
+smoothieroot_resp = requests.get("https://fruityvice.com/api/fruit/watermelon")
+sf_df = st.dataframe(data=smoothieroot_resp.json(), use_container_width=True)
 
 options = st.multiselect("Choose up to 5 ingredients:",
         my_df,
